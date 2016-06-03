@@ -8,14 +8,26 @@ import com.orbitz.consul.KeyValueClient
  */
 class TestConsulStoreKeyValues extends GroovyTestCase {
 
-   void testStore() {
+   void testStoreAndRetrieveKeyValues() {
+
+      //
+      // Connect to Consul
+      //
       Consul consul = Consul.builder()
               .withUrl("http://172.20.20.40:8500")
               .build(); // connect to Consul on localhost
       KeyValueClient kvClient = consul.keyValueClient();
+
+      //
+      // push Config to Consul
+      //
       kvClient.putValue("foo", "bar");
 
+      //
+      // pull Config from Consul
+      //
+
       String value = kvClient.getValueAsString("foo").get(); // bar
-      assert "foo" === value
+      assert "bar" == value
    }
 }
